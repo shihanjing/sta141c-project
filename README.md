@@ -49,4 +49,4 @@ Your grade will be determined by the amount of work that you have made and how w
 
 To be announced.
 
-Due: 6/10/2020
+Due: 6/10/2020 11:59pm
