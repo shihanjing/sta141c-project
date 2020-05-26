@@ -12,12 +12,14 @@ devtools::install_github("ucdavis-sta141c-sq-2020/blblm")
 and test it out.
 
 
-Your job is improved my package to various ways.
+Your job is improved my package to various ways. For examples,
 
 
 1. In the current implementation, only one CPU is used in the algorithm. Make it possible to use more than one CPUs. Note that you should let users to decide if they want to use parallelization.
 
-1. Functions are written in pure R, it is possible, for example, to convert the function `lm1` to c++ code.
+1. Allow users to specify file names to run the model rather than loading the whole data in the main process.
+
+1. Functions are written in pure R, it is possible, for example, to convert the function `lm1` to c++ code. Your might need look at how RcppArmadillo's [fastLm.R](https://github.com/RcppCore/RcppArmadillo/blob/master/R/fastLm.R) and [fastLm.cpp](https://github.com/RcppCore/RcppArmadillo/blob/master/src/fastLm.cpp). (Spoiler, it is not easy, but if you insist, here is a some slides about it: https://scholar.princeton.edu/sites/default/files/q-aps/files/slides_day4_am.pdf)
 
 1. Write tests and documentations
 
