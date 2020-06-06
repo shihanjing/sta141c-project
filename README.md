@@ -49,6 +49,9 @@ Your grade will be determined by the amount of work that you have made and how w
 
 ## How to submit?
 
-To be announced.
+Please visit this [link](https://submit-guhgays5va-uw.a.run.app/141c/) to submit the github repo of your package.
+
+You will need to login first using your github account.
+
 
 Due: 6/10/2020 11:59pm
