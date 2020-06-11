@@ -1,0 +1,65 @@
+---
+title: "vignette report"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{my-vignette}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup, message=FALSE}
+library(blblm)
+```
+
+The goal of this project is too add new features to the existing page. The package is provided by the instructor. It is implementing linear regression with little bag of bootstraps. Following the instructions, we add two features to the package. 
+
+The first feature is to run the original linear regression with little bag of bootstraps parallel. The parallel computing is particular useful in this case since we need to split the data many times and apply the same set of functions again and again. Parallel computing can reduce its training time. 
+
+The main function blblm() has one new argument named "cluster_size". When the cluster size is 1, it means we assume parallel computing is not needed. The original version is performed. When cluster size is greater than 1, it will automatically use parallel computing. The example below demonstrate how to call it. The first example is to use the default value, that means cluster_size = 1. 
+
+```{r}
+blblm_model <- blblm(Temp ~ Wind, data = airquality, m = 10, B = 100)
+blbcoef(blblm_model)
+```
+
+The first example is to set 4 clusters. Then, the program will run in parallel automatically. 
+
+```{r}
+blblm_model <- blblm(Temp ~ Wind, data = airquality, m = 10, B = 100, cluster_size = 4)
+blbcoef(blblm_model)
+```
+
+The second feature is to allow user to specify filenames instead of loading the analysis data. The purpose is to save memory in the main computer. The memory to load the data can be shared by the cluster. To show it, we first need to have several dataset in CSV format first. 
+
+Next, we will show how the new data entrance method works. 
+
+```{r}
+index <- sample.int(round(nrow(airquality)*0.5))
+airquality1 <- airquality[index,]
+airquality2 <- airquality[-index,]
+write.csv(airquality1, "airquality1.csv", row.names = FALSE)
+write.csv(airquality2, "airquality2.csv", row.names = FALSE)
+
+blblm_model <- blblm(Temp ~ Wind, data = c("airquality1.csv", "airquality2.csv"), 
+                     m = 10, B = 100, cluster_size = 4)
+
+blbcoef(blblm_model)
+```
+
+It can implement without problem. Let's compare to lm() result. 
+
+```{r}
+lm_model <- lm(Temp ~ Wind, data = airquality)
+lm_model$coef
+```
+
+It is pretty close. The result sounds reasonable. 
+
+
